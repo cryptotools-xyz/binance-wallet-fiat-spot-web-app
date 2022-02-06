@@ -10,8 +10,8 @@ export type TableProps = {
 
 export type LineProps = {
     index: number,
-    asset: string,
-    total: number,
+    balanceAsset: string,
+    balanceTotal: number,
     tickerPrice: TickerPrice
 }
 

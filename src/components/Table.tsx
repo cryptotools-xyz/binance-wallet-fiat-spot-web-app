@@ -10,13 +10,13 @@ function Table(props: TableProps) {
             <thead>
                 <tr>
                     <th scope="col">
-                        asset
+                        balance.asset
                     </th>
                     <th scope="col">
-                        total
+                        balance.total
                     </th>
                     <th scope="col">
-                        price
+                        ticker.price in USDT
                     </th>
                     <th scope="col">
                         value
@@ -30,7 +30,7 @@ function Table(props: TableProps) {
                     const tickerPrice = tickerPrices.find((tickerPrice: TickerPrice) => tickerPrice.symbol === (balance.asset + "USDT"));
 
                     if (total > 0) {
-                        return tickerPrice && <Line index={index} asset={balance.asset} total={total} tickerPrice={tickerPrice} />
+                        return tickerPrice && <Line index={index} balanceAsset={balance.asset} balanceTotal={total} tickerPrice={tickerPrice} />
                     }
                 })}
             </tbody>
