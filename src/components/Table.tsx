@@ -1,10 +1,6 @@
 import React from "react"
-import NumberFormat from 'react-number-format';
-
-type TickerPrice = {
-    symbol: string,
-    price: string
-}
+import Line from './Line'
+import { TickerPrice } from './types'
 
 function Table(props: any) {
     const { data: { balances }, tickerPriceData } = props;
@@ -34,12 +30,7 @@ function Table(props: any) {
                     const tickerPrice = tickerPriceData.find((tickerPrice: TickerPrice) => tickerPrice.symbol === (item.asset + "USDT"));
 
                     if (total > 0) {
-                        return <tr key={index}>
-                            <td >{item.asset}</td>
-                            <td>{total}</td>
-                            <td><NumberFormat value={tickerPrice && tickerPrice.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} /></td>
-                            <td><NumberFormat value={total * (tickerPrice && parseFloat(tickerPrice.price))} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} /></td>
-                        </tr>
+                        return tickerPrice && <Line index={index} asset={item.asset} total={total} tickerPrice={tickerPrice} />
                     }
                 })}
             </tbody>
