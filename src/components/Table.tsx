@@ -1,9 +1,9 @@
 import React from "react"
 import Line from './Line'
-import { TickerPrice } from './types'
+import { TickerPrice, TableProps, Balance } from './types'
 
-function Table(props: any) {
-    const { data: { balances }, tickerPriceData } = props;
+function Table(props: TableProps) {
+    const { balances, tickerPrices } = props;
 
     return (
         <table className="table">
@@ -24,13 +24,13 @@ function Table(props: any) {
                 </tr>
             </thead>
             <tbody>
-                {balances && balances.map((item: any, index: number) => {
-                    const total = parseFloat(item.free) + parseFloat(item.locked);
+                {balances && balances.map((balance: Balance, index: number) => {
+                    const total = parseFloat(balance.free) + parseFloat(balance.locked);
 
-                    const tickerPrice = tickerPriceData.find((tickerPrice: TickerPrice) => tickerPrice.symbol === (item.asset + "USDT"));
+                    const tickerPrice = tickerPrices.find((tickerPrice: TickerPrice) => tickerPrice.symbol === (balance.asset + "USDT"));
 
                     if (total > 0) {
-                        return tickerPrice && <Line index={index} asset={item.asset} total={total} tickerPrice={tickerPrice} />
+                        return tickerPrice && <Line index={index} asset={balance.asset} total={total} tickerPrice={tickerPrice} />
                     }
                 })}
             </tbody>

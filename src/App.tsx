@@ -11,11 +11,11 @@ function App() {
     }
 
     setLoading(true);
-    const fetchData = async () => {
+    const fetchBalances = async () => {
       try {
         const response = await fetch(url);
-        const data = await response.json();
-        setData(data);
+        const { balances } = await response.json();
+        setBalances(balances);
         setLoading(false);
       } catch (error) {
         console.log("error", error);
@@ -27,8 +27,8 @@ function App() {
     const fetchTickerPrice = async () => {
       try {
         const response = await fetch("https://api.binance.com/api/v3/ticker/price");
-        const tickerPriceData = await response.json();
-        setTickerPriceData(tickerPriceData);
+        const tickerPrices = await response.json();
+        setTickerPrices(tickerPrices);
         setLoading(false);
       } catch (error) {
         console.log("error", error);
@@ -36,12 +36,12 @@ function App() {
       }
     };
 
-    fetchData();
+    fetchBalances();
     fetchTickerPrice();
   }, []);
 
-  const [data, setData] = useState([]);
-  const [tickerPriceData, setTickerPriceData] = useState([]);
+  const [balances, setBalances] = useState([]);
+  const [tickerPrices, setTickerPrices] = useState([]);
   const [loading, setLoading] = useState(false);
 
   return (
@@ -49,7 +49,7 @@ function App() {
       <h1>Binance wallet fiat & spot</h1>
 
       {loading ? <p>We're loading, please wait.</p> : <>
-        <Table data={data} tickerPriceData={tickerPriceData} />
+        <Table balances={balances} tickerPrices={tickerPrices} />
       </>}
     </div>
   );
