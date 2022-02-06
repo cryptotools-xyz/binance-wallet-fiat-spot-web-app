@@ -23,10 +23,25 @@ function App() {
       }
     };
 
+    setLoading(true);
+    const fetchTickerPrice = async () => {
+      try {
+        const response = await fetch("https://api.binance.com/api/v3/ticker/price");
+        const tickerPriceData = await response.json();
+        setTickerPriceData(tickerPriceData);
+        setLoading(false);
+      } catch (error) {
+        console.log("error", error);
+        setLoading(false);
+      }
+    };
+
     fetchData();
+    fetchTickerPrice();
   }, []);
 
   const [data, setData] = useState([]);
+  const [tickerPriceData, setTickerPriceData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   return (
@@ -34,7 +49,7 @@ function App() {
       <h1>Binance wallet fiat & spot</h1>
 
       {loading ? <p>We're loading, please wait.</p> : <>
-        <Table data={data} />
+        <Table data={data} tickerPriceData={tickerPriceData} />
       </>}
     </div>
   );
