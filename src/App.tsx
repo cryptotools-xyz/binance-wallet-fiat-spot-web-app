@@ -1,24 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react"
+import Table from './components/Table';
 
 function App() {
+  useEffect(() => {
+    const url = process.env.REACT_APP_WEB_API_URL
+
+    if (!url) {
+      throw new Error("The REACT_APP_WEB_API_URL variable is not defined.");
+    }
+
+    setLoading(true);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        setBalances(data);
+        setLoading(false);
+      } catch (error) {
+        console.log("error", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const [balances, setBalances] = useState([]);
+  const [loading, setLoading] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Binance wallet fiat & spot</h1>
+
+      {loading ? <p>We're loading, please wait.</p> : <>
+        <Table balances={balances} />
+      </>}
     </div>
   );
 }
