@@ -14,7 +14,7 @@ function App() {
       try {
         const response = await fetch(url);
         const data = await response.json();
-        setBalances(data);
+        setData(data);
         setLoading(false);
       } catch (error) {
         console.log("error", error);
@@ -25,7 +25,7 @@ function App() {
     fetchData();
   }, []);
 
-  const [balances, setBalances] = useState([]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   return (
@@ -33,7 +33,7 @@ function App() {
       <h1>Binance wallet fiat & spot</h1>
 
       {loading ? <p>We're loading, please wait.</p> : <>
-        <Table balances={balances} />
+        <Table data={data} />
       </>}
     </div>
   );
