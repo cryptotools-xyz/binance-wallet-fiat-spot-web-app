@@ -1,4 +1,5 @@
 import React from "react"
+import NumberFormat from 'react-number-format';
 
 type TickerPrice = {
     symbol: string,
@@ -36,8 +37,8 @@ function Table(props: any) {
                         return <tr key={index}>
                             <td >{item.asset}</td>
                             <td>{total}</td>
-                            <td>{tickerPrice && tickerPrice.price}</td>
-                            <td>{total * (tickerPrice && parseFloat(tickerPrice.price))}</td>
+                            <td><NumberFormat value={tickerPrice && tickerPrice.price} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} /></td>
+                            <td><NumberFormat value={total * (tickerPrice && parseFloat(tickerPrice.price))} displayType={'text'} thousandSeparator={true} prefix={'$'} decimalScale={2} /></td>
                         </tr>
                     }
                 })}
