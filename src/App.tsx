@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react"
 import Table from './components/Table';
+import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
   useEffect(() => {
