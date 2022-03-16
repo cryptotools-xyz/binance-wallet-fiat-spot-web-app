@@ -1,6 +1,6 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import NumberFormat from 'react-number-format';
-import { TickerPrice, LineProps } from './types'
+import { LineProps } from './types'
 
 function Line({ index, balanceAsset, balanceTotal, tickerPrice }: LineProps) {
 

@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 function App() {
   useEffect(() => {
     const url = process.env.REACT_APP_WEB_API_URL
+    const password = process.env.REACT_APP_WEB_API_PASSWORD
 
     if (!url) {
       throw new Error("The REACT_APP_WEB_API_URL variable is not defined.");
@@ -13,7 +14,7 @@ function App() {
     setLoading(true);
     const fetchBalances = async () => {
       try {
-        const response = await fetch(url);
+        const response = await fetch(url + "/api/wallet/fiat-spot?password=" + password);
         const { balances } = await response.json();
         setBalances(balances);
         setLoading(false);
