@@ -1,7 +1,8 @@
 // @ts-nocheck
 import React, { useEffect, useState } from "react"
 import 'bootstrap/dist/css/bootstrap.css';
-import { useTable } from 'react-table'
+import { useTable, useGlobalFilter } from 'react-table'
+import { GlobalFilter } from "./GlobalFilter";
 
 function ReactTable(props) {
 
@@ -29,39 +30,46 @@ function ReactTable(props) {
         headerGroups,
         rows,
         prepareRow,
-    } = useTable({ columns, data: props.data })
+        state,
+        setGlobalFilter,
+    } = useTable({ columns, data: props.data }, useGlobalFilter)
+
+    const { globalFilter } = state
 
     return (
-        <table {...getTableProps()} className="table">
-            <thead>
-                {headerGroups.map(headerGroup => (
-                    <tr {...headerGroup.getHeaderGroupProps()}>
-                        {headerGroup.headers.map(column => (
-                            <th {...column.getHeaderProps()}>
-                                {column.render('Header')}
-                            </th>
-                        ))}
-                    </tr>
-                ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-                {rows.map(row => {
-                    prepareRow(row)
-                    return (
-                        <tr {...row.getRowProps()}>
-                            {row.cells.map(cell => {
-                                return (
-                                    <td
-                                        {...cell.getCellProps()}>
-                                        {cell.render('Cell')}
-                                    </td>
-                                )
-                            })}
+        <>
+            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+            <table {...getTableProps()} className="table">
+                <thead>
+                    {headerGroups.map(headerGroup => (
+                        <tr {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map(column => (
+                                <th {...column.getHeaderProps()}>
+                                    {column.render('Header')}
+                                </th>
+                            ))}
                         </tr>
-                    )
-                })}
-            </tbody>
-        </table>
+                    ))}
+                </thead>
+                <tbody {...getTableBodyProps()}>
+                    {rows.map(row => {
+                        prepareRow(row)
+                        return (
+                            <tr {...row.getRowProps()}>
+                                {row.cells.map(cell => {
+                                    return (
+                                        <td
+                                            {...cell.getCellProps()}>
+                                            {cell.render('Cell')}
+                                        </td>
+                                    )
+                                })}
+                            </tr>
+                        )
+                    })}
+                </tbody>
+            </table>
+        </>
     )
 }
 
