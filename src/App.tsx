@@ -1,6 +1,7 @@
+// @ts-nocheck
 import React, { useEffect, useState } from "react"
-import Table from './components/Table';
 import 'bootstrap/dist/css/bootstrap.css';
+import ReactTable from './components/ReactTable';
 
 function App() {
   useEffect(() => {
@@ -42,7 +43,6 @@ function App() {
   }, []);
 
   const [balances, setBalances] = useState([]);
-  const [tickerPrices, setTickerPrices] = useState([]);
   const [loading, setLoading] = useState(false);
 
   return (
@@ -50,7 +50,7 @@ function App() {
       <h1>Binance wallet fiat & spot</h1>
 
       {loading ? <p>We're loading, please wait.</p> : <>
-        <Table balances={balances} tickerPrices={tickerPrices} />
+        <ReactTable data={balances} />
       </>}
     </div>
   );
