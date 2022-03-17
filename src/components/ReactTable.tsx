@@ -1,8 +1,9 @@
 // @ts-nocheck
-import React, { useEffect, useState } from "react"
+import React, { useMemo } from "react"
 import 'bootstrap/dist/css/bootstrap.css';
-import { useTable, useGlobalFilter } from 'react-table'
+import { useTable, useGlobalFilter, useFilters } from 'react-table'
 import { GlobalFilter } from "./GlobalFilter";
+import { SearchAssetFilter } from "./SearchAssetFilter";
 
 function ReactTable(props) {
 
@@ -11,16 +12,26 @@ function ReactTable(props) {
             {
                 Header: 'Asset',
                 accessor: 'asset',
+                Filter: SearchAssetFilter
             },
             {
                 Header: 'Free',
                 accessor: 'free',
+                disableFilters: true,
             },
             {
                 Header: 'Locked',
                 accessor: 'locked',
+                disableFilters: true,
             },
         ],
+        []
+    )
+
+    const defaultColumn = useMemo(
+        () => ({
+            Filter: SearchAssetFilter,
+        }),
         []
     )
 
@@ -32,20 +43,28 @@ function ReactTable(props) {
         prepareRow,
         state,
         setGlobalFilter,
-    } = useTable({ columns, data: props.data }, useGlobalFilter)
+    } = useTable({ columns, data: props.data, defaultColumn }, useFilters, useGlobalFilter)
 
     const { globalFilter } = state
 
     return (
         <>
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
+
+            <hr />
+
             <table {...getTableProps()} className="table">
                 <thead>
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map(column => (
                                 <th {...column.getHeaderProps()}>
-                                    {column.render('Header')}
+                                    <div>
+                                        {column.render('Header')}
+                                    </div>
+                                    <div>
+                                        {column.canFilter ? column.render('Filter') : null}
+                                    </div>
                                 </th>
                             ))}
                         </tr>
