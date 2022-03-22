@@ -25,21 +25,7 @@ function App() {
       }
     };
 
-    setLoading(true);
-    const fetchTickerPrice = async () => {
-      try {
-        const response = await fetch("https://api.binance.com/api/v3/ticker/price");
-        const tickerPrices = await response.json();
-        setTickerPrices(tickerPrices);
-        setLoading(false);
-      } catch (error) {
-        console.log("error", error);
-        setLoading(false);
-      }
-    };
-
     fetchBalances();
-    fetchTickerPrice();
   }, []);
 
   const [balances, setBalances] = useState([]);
