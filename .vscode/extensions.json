@@ -1,0 +1,8 @@
+{
+    "recommendations": [
+        "howardzuo.vscode-favorites",
+        "wakatime.vscode-wakatime",
+        "dbaeumer.vscode-eslint",
+        "ms-vscode.vscode-typescript-next"
+    ]
+}
