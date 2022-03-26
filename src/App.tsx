@@ -36,9 +36,14 @@ function App() {
   return (
     <div>
       <h1>Binance wallet fiat & spot</h1>
+      <hr />
+
+      <h2>Unlock api</h2>
       <input value={password} onChange={e => setPassword(e.target.value)} type="password" />
       <button onClick={handleClick}>Get data</button>
+      <hr />
 
+      <h2>Your wallet</h2>
       {loading ? <p>We're loading, please wait.</p> : <>
         <ReactTable data={balances} />
       </>}

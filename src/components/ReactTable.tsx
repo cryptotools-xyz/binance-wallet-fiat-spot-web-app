@@ -49,10 +49,10 @@ function ReactTable(props) {
 
     return (
         <>
+            <h3>Global filters</h3>
             <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
 
-            <hr />
-
+            <h3>Table</h3>
             <table {...getTableProps()} className="table">
                 <thead>
                     {headerGroups.map(headerGroup => (
