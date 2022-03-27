@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useMemo } from "react"
 import 'bootstrap/dist/css/bootstrap.css';
-import { useTable, useGlobalFilter, useFilters } from 'react-table'
+import { useTable, useGlobalFilter, useFilters, useSortBy } from 'react-table'
 import { GlobalFilter } from "./GlobalFilter";
 import { SearchAssetFilter } from "./SearchAssetFilter";
 
@@ -43,7 +43,7 @@ function ReactTable(props) {
         prepareRow,
         state,
         setGlobalFilter,
-    } = useTable({ columns, data: props.data, defaultColumn }, useFilters, useGlobalFilter)
+    } = useTable({ columns, data: props.data, defaultColumn }, useFilters, useGlobalFilter, useSortBy)
 
     const { globalFilter } = state
 
@@ -58,12 +58,15 @@ function ReactTable(props) {
                     {headerGroups.map(headerGroup => (
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps()}>
+                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
                                     <div>
                                         {column.render('Header')}
                                     </div>
                                     <div>
-                                        {column.canFilter ? column.render('Filter') : null}
+                                        Sort: {column.isSorted ? (column.isSortedDesc ? ' ⬇️' : ' ⬆️'): null}
+                                    </div>
+                                    <div>
+                                        Filter: {column.canFilter ? column.render('Filter') : null}
                                     </div>
                                 </th>
                             ))}
