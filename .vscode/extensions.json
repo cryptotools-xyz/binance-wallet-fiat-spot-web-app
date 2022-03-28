@@ -3,6 +3,7 @@
         "howardzuo.vscode-favorites",
         "wakatime.vscode-wakatime",
         "dbaeumer.vscode-eslint",
-        "ms-vscode.vscode-typescript-next"
+        "ms-vscode.vscode-typescript-next",
+        "redhat.vscode-yaml"
     ]
 }
