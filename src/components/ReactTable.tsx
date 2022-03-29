@@ -24,6 +24,20 @@ function ReactTable(props) {
                 accessor: 'locked',
                 disableFilters: true,
             },
+            {
+                Header: '$ Value',
+                accessor: (row) => {
+                
+                    const tickerPrice = props.tickerPrices.find((tickerPrice) => tickerPrice.symbol === (row.asset + "USDT"));
+
+                    if(tickerPrice) {
+                        return <div>{tickerPrice.symbol} {tickerPrice.price}</div>
+                    }
+                    
+                    return <div>undef</div>
+                },
+                disableFilters: true,
+            },
         ],
         []
     )
@@ -63,7 +77,7 @@ function ReactTable(props) {
                                         {column.render('Header')}
                                     </div>
                                     <div>
-                                        Sort: {column.isSorted ? (column.isSortedDesc ? ' ⬇️' : ' ⬆️'): null}
+                                        Sort: {column.isSorted ? (column.isSortedDesc ? ' ⬇️' : ' ⬆️') : null}
                                     </div>
                                     <div>
                                         Filter: {column.canFilter ? column.render('Filter') : null}

@@ -6,6 +6,7 @@ import ReactTable from './components/ReactTable';
 function App() {
   const [password, setPassword] = useState("");
   const [balances, setBalances] = useState([]);
+  const [tickerPrices, setTickerPrices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
@@ -15,15 +16,20 @@ function App() {
     if (!url) {
       throw new Error("The REACT_APP_WEB_API_URL variable is not defined.");
     }
-    
+
     setLoading(true);
     try {
-      const response = await fetch(url + "/api/wallet/fiat-spot?password=" + password);
-      const { balances } = await response.json();
+      const [responseOne, responseTwo] = await Promise.all([
+        fetch(url + "/api/wallet/fiat-spot?password=" + password),
+        fetch("https://api.binance.com/api/v3/ticker/price"),
+      ]);
+      const { balances } = await responseOne.json();
+      const tickerPrices = await responseTwo.json();
+
       setBalances(balances);
+      setTickerPrices(tickerPrices);
       setLoading(false);
     } catch (error) {
-      console.log("error", error);
       setLoading(false);
       setError(true);
     }
@@ -31,7 +37,6 @@ function App() {
 
   console.log("loading", loading)
   console.log("error", error)
-  console.log("balances", balances)
 
   return (
     <div>
@@ -45,7 +50,7 @@ function App() {
 
       <h2>Your wallet</h2>
       {loading ? <p>We're loading, please wait.</p> : <>
-        <ReactTable data={balances} />
+        <ReactTable data={balances} tickerPrices={tickerPrices} />
       </>}
     </div>
   );
