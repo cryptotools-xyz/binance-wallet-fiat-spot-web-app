@@ -6,7 +6,9 @@ import { GlobalFilter } from "./GlobalFilter";
 import { SearchAssetFilter } from "./SearchAssetFilter";
 
 type Props = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     data: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     tickerPrices: any,
 }
 
