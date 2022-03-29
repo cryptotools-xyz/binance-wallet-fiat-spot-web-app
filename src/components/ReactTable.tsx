@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { useTable, useFilters, useSortBy } from "react-table";
 import { SearchAssetFilter } from "./SearchAssetFilter";
+import NumberFormat from "react-number-format";
 
 type Props = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,16 +38,32 @@ function ReactTable(props: Props) {
 
                     const tickerPrice = props.tickerPrices.find((tickerPrice) => tickerPrice.symbol === (row.asset + "USDT"));
 
+                    let totalValue;
                     if (tickerPrice) {
-                        return row.free * tickerPrice.price;
+                        totalValue = row.free * tickerPrice.price;
+                    } else {
+                        totalValue = 0;
                     }
 
-                    return 0;
+                    return totalValue;
+                    return <NumberFormat value={totalValue} displayType={"text"} thousandSeparator={true} prefix={"$ "} decimalScale={2} />;
                 },
                 disableFilters: true,
             },
 
         ],
+        []
+    );
+
+    const initialState = useMemo(
+        () => ({
+            sortBy: [
+                {
+                    id: "value",
+                    desc: true
+                }
+            ]
+        }),
         []
     );
 
@@ -57,14 +74,8 @@ function ReactTable(props: Props) {
         rows,
         prepareRow,
     } = useTable({
-        columns, data: props.data, initialState: {
-            sortBy: [
-                {
-                    id: "value",
-                    desc: true
-                }
-            ]
-        }
+        columns, data: props.data,
+        initialState,
     }, useFilters, useSortBy);
 
     return (
