@@ -39,7 +39,7 @@ function App() {
 
   return (
     <div>
-      <h1>Binance wallet fiat & spot</h1>
+      <h1>Binance wallet fiat and spot</h1>
       <hr />
 
       <h2>Unlock api</h2>
@@ -48,7 +48,7 @@ function App() {
       <hr />
 
       <h2>Your wallet</h2>
-      {loading ? <p>We're loading, please wait.</p> : <>
+      {loading ? <p>We re loading, please wait.</p> : <>
         <ReactTable data={balances} tickerPrices={tickerPrices} />
       </>}
     </div>

@@ -1,6 +1,12 @@
+// @ts-nocheck
 import React from "react";
 
-export const SearchAssetFilter = ({ column }) => {
+type Props = {
+    column: any
+}
+
+/* eslint react/prop-types: 0 */
+export const SearchAssetFilter = ({ column }): Props => {
     const { filterValue, setFilter } = column;
 
     return (

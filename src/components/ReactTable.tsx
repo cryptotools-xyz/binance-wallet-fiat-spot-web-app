@@ -1,10 +1,16 @@
+// @ts-nocheck
 import React, { useMemo } from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { useTable, useGlobalFilter, useFilters, useSortBy } from "react-table";
 import { GlobalFilter } from "./GlobalFilter";
 import { SearchAssetFilter } from "./SearchAssetFilter";
 
-function ReactTable(props) {
+type Props = {
+    data: any,
+    tickerPrices: any,
+}
+
+function ReactTable(props: Props) {
 
     const columns = React.useMemo(
         () => [
@@ -68,10 +74,10 @@ function ReactTable(props) {
             <h3>Table</h3>
             <table {...getTableProps()} className="table">
                 <thead>
-                    {headerGroups.map(headerGroup => (
-                        <tr {...headerGroup.getHeaderGroupProps()}>
-                            {headerGroup.headers.map(column => (
-                                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
+                    {headerGroups.map((headerGroup, i) => (
+                        <tr key={i} {...headerGroup.getHeaderGroupProps()}>
+                            {headerGroup.headers.map((column, j) => (
+                                <th key={j} {...column.getHeaderProps(column.getSortByToggleProps())}>
                                     <div>
                                         {column.render("Header")}
                                     </div>
@@ -87,13 +93,14 @@ function ReactTable(props) {
                     ))}
                 </thead>
                 <tbody {...getTableBodyProps()}>
-                    {rows.map(row => {
+                    {rows.map((row, i) => {
                         prepareRow(row);
                         return (
-                            <tr {...row.getRowProps()}>
-                                {row.cells.map(cell => {
+                            <tr key={i} {...row.getRowProps()}>
+                                {row.cells.map((cell, j) => {
                                     return (
                                         <td
+                                            key={j} 
                                             {...cell.getCellProps()}>
                                             {cell.render("Cell")}
                                         </td>
