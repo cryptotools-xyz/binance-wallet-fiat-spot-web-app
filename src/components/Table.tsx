@@ -1,6 +1,5 @@
-import React from "react"
-import Line from './Line'
-import { TickerPrice, TableProps, Balance } from './types'
+import Line from "./Line";
+import { TickerPrice, TableProps, Balance } from "./types";
 
 function Table(props: TableProps) {
     const { balances, tickerPrices } = props;
@@ -30,7 +29,7 @@ function Table(props: TableProps) {
                     const tickerPrice = tickerPrices.find((tickerPrice: TickerPrice) => tickerPrice.symbol === (balance.asset + "USDT"));
 
                     if (total > 0) {
-                        return tickerPrice && <Line index={index} balanceAsset={balance.asset} balanceTotal={total} tickerPrice={tickerPrice} />
+                        return tickerPrice && <Line index={index} balanceAsset={balance.asset} balanceTotal={total} tickerPrice={tickerPrice} />;
                     }
                 })}
             </tbody>

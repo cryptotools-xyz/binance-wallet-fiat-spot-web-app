@@ -1,7 +1,6 @@
-// @ts-nocheck
-import React, { useEffect, useState } from "react"
-import 'bootstrap/dist/css/bootstrap.css';
-import ReactTable from './components/ReactTable';
+import React, { useState } from "react";
+import "bootstrap/dist/css/bootstrap.css";
+import ReactTable from "./components/ReactTable";
 
 function App() {
   const [password, setPassword] = useState("");
@@ -11,7 +10,7 @@ function App() {
   const [error, setError] = useState(false);
 
   const handleClick = async () => {
-    const url = process.env.REACT_APP_WEB_API_URL
+    const url = process.env.REACT_APP_WEB_API_URL;
 
     if (!url) {
       throw new Error("The REACT_APP_WEB_API_URL variable is not defined.");
@@ -33,14 +32,14 @@ function App() {
       setLoading(false);
       setError(true);
     }
-  }
+  };
 
-  console.log("loading", loading)
-  console.log("error", error)
+  console.log("loading", loading);
+  console.log("error", error);
 
   return (
     <div>
-      <h1>Binance wallet fiat & spot</h1>
+      <h1>Binance wallet fiat and spot</h1>
       <hr />
 
       <h2>Unlock api</h2>
@@ -49,7 +48,7 @@ function App() {
       <hr />
 
       <h2>Your wallet</h2>
-      {loading ? <p>We're loading, please wait.</p> : <>
+      {loading ? <p>We re loading, please wait.</p> : <>
         <ReactTable data={balances} tickerPrices={tickerPrices} />
       </>}
     </div>
