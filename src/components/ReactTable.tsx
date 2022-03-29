@@ -1,8 +1,7 @@
 // @ts-nocheck
 import React, { useMemo } from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import { useTable, useGlobalFilter, useFilters, useSortBy } from "react-table";
-import { GlobalFilter } from "./GlobalFilter";
+import { useTable, useFilters, useSortBy } from "react-table";
 import { SearchAssetFilter } from "./SearchAssetFilter";
 
 type Props = {
@@ -32,27 +31,22 @@ function ReactTable(props: Props) {
                 disableFilters: true,
             },
             {
+                id: "value",
                 Header: "$ Value",
                 accessor: (row) => {
-                
+
                     const tickerPrice = props.tickerPrices.find((tickerPrice) => tickerPrice.symbol === (row.asset + "USDT"));
 
-                    if(tickerPrice) {
-                        return <div>{tickerPrice.symbol} {tickerPrice.price}</div>;
+                    if (tickerPrice) {
+                        return row.free * tickerPrice.price;
                     }
-                    
-                    return <div>undef</div>;
+
+                    return 0;
                 },
                 disableFilters: true,
             },
-        ],
-        []
-    );
 
-    const defaultColumn = useMemo(
-        () => ({
-            Filter: SearchAssetFilter,
-        }),
+        ],
         []
     );
 
@@ -62,16 +56,20 @@ function ReactTable(props: Props) {
         headerGroups,
         rows,
         prepareRow,
-        state,
-        setGlobalFilter,
-    } = useTable({ columns, data: props.data, defaultColumn }, useFilters, useGlobalFilter, useSortBy);
-
-    const { globalFilter } = state;
+    } = useTable({
+        columns, data: props.data, initialState: {
+            sortBy: [
+                {
+                    id: "value",
+                    desc: true
+                }
+            ]
+        }
+    }, useFilters, useSortBy);
 
     return (
         <>
             <h3>Global filters</h3>
-            <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter} />
 
             <h3>Table</h3>
             <table {...getTableProps()} className="table">
@@ -84,10 +82,10 @@ function ReactTable(props: Props) {
                                         {column.render("Header")}
                                     </div>
                                     <div>
-                                        Sort: {column.isSorted ? (column.isSortedDesc ? " ⬇️" : " ⬆️") : null}
+                                        {column.isSorted ? (column.isSortedDesc ? " ⬇️" : " ⬆️") : " ➡️"}
                                     </div>
                                     <div>
-                                        Filter: {column.canFilter ? column.render("Filter") : null}
+                                        {column.canFilter ? column.render("Filter") : null}
                                     </div>
                                 </th>
                             ))}
@@ -102,7 +100,7 @@ function ReactTable(props: Props) {
                                 {row.cells.map((cell, j) => {
                                     return (
                                         <td
-                                            key={j} 
+                                            key={j}
                                             {...cell.getCellProps()}>
                                             {cell.render("Cell")}
                                         </td>
