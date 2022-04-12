@@ -1,15 +1,11 @@
 // @ts-nocheck
-import React, { useMemo } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
 import { useTable, useFilters, useSortBy } from "react-table";
-import { SearchAssetFilter } from "./SearchAssetFilter";
-import { NumberValueFilter } from "./NumberValueFilter";
 
 type Props = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data: any,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    tickerPrices: any,
+    data: any
 }
 
 function ReactTable(props: Props) {
@@ -17,53 +13,56 @@ function ReactTable(props: Props) {
     const columns = React.useMemo(
         () => [
             {
-                Header: "Asset",
-                accessor: "asset",
-                Filter: SearchAssetFilter
-            },
-            {
-                Header: "Free",
-                accessor: "free",
+                Header: "trade.time",
+                accessor: "time",
                 disableFilters: true,
             },
             {
-                Header: "Locked",
-                accessor: "locked",
+                Header: "trade.id",
+                accessor: "id",
                 disableFilters: true,
             },
             {
-                id: "value",
-                Header: "$ Value",
-                accessor: (row) => {
-
-                    const tickerPrice = props.tickerPrices.find((tickerPrice) => tickerPrice.symbol === (row.asset + "USDT"));
-
-                    let totalValue;
-                    if (tickerPrice) {
-                        totalValue = row.free * tickerPrice.price;
-                    } else {
-                        totalValue = 0;
-                    }
-
-                    return totalValue;
-                    //return <NumberFormat value={totalValue} displayType={"text"} thousandSeparator={true} prefix={"$ "} decimalScale={2} />;
-                },
-                Filter: NumberValueFilter
+                Header: "trade.symbol",
+                accessor: "symbol",
+                disableFilters: true,
             },
-
+            {
+                Header: "order.status",
+                accessor: "order.status",
+                disableFilters: true,
+            },
+            {
+                Header: "order.type",
+                accessor: "order.type",
+                disableFilters: true,
+            },
+            {
+                Header: "order.side",
+                accessor: "order.side",
+                disableFilters: true,
+            },
+            {
+                Header: "trade.price",
+                accessor: "price",
+                disableFilters: true,
+            },
+            {
+                Header: "trade.qty",
+                accessor: "qty",
+                disableFilters: true,
+            },
+            {
+                Header: "trade.orderId",
+                accessor: "orderId",
+                disableFilters: true,
+            },
+            {
+                Header: "order.orderId",
+                accessor: "order.orderId",
+                disableFilters: true,
+            },
         ],
-        []
-    );
-
-    const initialState = useMemo(
-        () => ({
-            sortBy: [
-                {
-                    id: "value",
-                    desc: true
-                }
-            ]
-        }),
         []
     );
 
@@ -75,7 +74,6 @@ function ReactTable(props: Props) {
         prepareRow,
     } = useTable({
         columns, data: props.data,
-        initialState,
     }, useFilters, useSortBy);
 
     return (
